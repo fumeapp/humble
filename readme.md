@@ -19,10 +19,10 @@ Add Humble's trait to your user model:
 
 ```php
 use acidjazz\Humble\Traits\Humble;
-
-class User extends Model
+...
+class User extends Authenticatable
 {
-  use Humble;
+  use Humble, Notifiable;
 }
 ```
 
