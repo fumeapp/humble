@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="https://github.com/acidjazz/humble/raw/master/logo.jpg"/>
 </p>

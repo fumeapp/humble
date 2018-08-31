@@ -1,13 +1,10 @@
 <?php
 
-namespace acidjazz\metapi;
+namespace acidjazz\Humble;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
   public function boot()
   {
-    // $this->loadViewsFrom(__DIR__.'/../resources/views/', 'metapi');
   }
-
 }
