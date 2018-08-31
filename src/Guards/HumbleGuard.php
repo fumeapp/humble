@@ -3,7 +3,6 @@
 namespace acidjazz\Humble\Guards;
 
 use Illuminate\Contracts\Auth\Guard;
-// use Illuminate\Foundation\Auth\User;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 
@@ -36,7 +35,7 @@ class HumbleGuard implements Guard {
       return false;
     }
 
-    $user = User::where('id', $this->session->user_id)->first();
+    $user = config('humble.user')::where('id', $this->session->user_id)->first();
 
     if ($this->session == null) {
       return false;
