@@ -3,7 +3,8 @@
 namespace acidjazz\Humble\Guards;
 
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Foundation\Auth\User;
+// use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 use acidjazz\Humble\Models\Session;

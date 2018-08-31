@@ -16,7 +16,7 @@ trait Humble
 
   public function sessions()
   {
-    return $this->HasMany(Session::class);
+    return $this->hasMany(Session::class);
   }
 
 }
