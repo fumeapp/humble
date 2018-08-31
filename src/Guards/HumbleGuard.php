@@ -25,10 +25,16 @@ class HumbleGuard implements Guard {
       return true;
     }
 
+
     $token = false;
     $token = request()->get('token') ?: request()->bearerToken() ?:  request()->cookie('token') ?: false;
 
     $this->session = Session::where('token', $token)->first();
+
+    if ($this->session == null) {
+      return false;
+    }
+
     $user = User::where('id', $this->session->user_id)->first();
 
     if ($this->session == null) {
@@ -69,7 +75,45 @@ class HumbleGuard implements Guard {
     $this->token = null;
   }
 
+  public function attempt(Authenticatable $user)
+  {
 
+    $attempt = Session::create([
+      'token' => Session::hash(),
+      'user_id' => $user->id,
+      'source' => 'attempt',
+      'cookie' => Session::hash(),
+      'verified' => false,
+      'ip' => request()->ip(),
+      'agent' => request()->Header('User-Agent'),
+    ]);
+
+    return $attempt;
+
+  }
+
+  public function verify(String $token, String $cookie)
+  {
+    $this->session = Session::orWhere([
+      ['token', $token],
+      ['verified', false],
+      ['cookie', false]
+    ])->orWhere([
+     ['token', $token], 
+     ['verified',false], 
+     ['cookie', $cookie]
+   ])->first();
+
+    if ($this->session != null) {
+      $this->session->verified = true;
+      $this->session->save();
+      $this->setUser(User::find($this->session->user_id));
+      return $this->session;
+    }
+
+    return false;
+
+  }
 
   /**
   * Determine if the current user is a guest.
@@ -88,6 +132,16 @@ class HumbleGuard implements Guard {
   public function user()
   {
     return $this->user;
+  }
+
+  /**
+  * Get the current session.
+  *
+  * @return \acidjazz\Humble\Models\Session|null
+  */
+  public function session()
+  {
+    return $this->session;
   }
 
   /**
