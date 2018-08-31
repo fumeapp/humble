@@ -11,8 +11,8 @@
 ## Installation
 
 Install humble with [composer](https://getcomposer.org/doc/00-intro.md):
-```
-$ composer require acidjazz/humble
+```bash
+composer require acidjazz/humble
 ```
 
 Add Humble's trait to your user model:
@@ -27,13 +27,13 @@ class User extends Authenticatable
 ```
 
 Publish Humble's migrations of it's sessions table
-```
-$ php artisan vendor:publish --tag="humble.migrations"
+```bash
+php artisan vendor:publish --tag="humble.migrations"
 ```
 
 Run the migration
-```
-$ php artisan migrate
+```bash
+php artisan migrate
 ```
 
 
