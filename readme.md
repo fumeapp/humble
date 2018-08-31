@@ -10,8 +10,6 @@
 
 ## Installation
 
-### Installing humble as in a Laravel app
-
 Install humble with [composer](https://getcomposer.org/doc/00-intro.md):
 ```
 $ composer require acidjazz/humble
