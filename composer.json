@@ -1,5 +1,5 @@
 {
-  "name": "acidjazz/humble",
+  "name": "acidjazz/Humble",
   "type": "library",
   "description": "Ideal Authentication for Laravel",
   "license": "Apache-2.0",
@@ -26,7 +26,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "acidjazz\\humble\\ServiceProvider"
+        "acidjazz\\Humble\\ServiceProvider"
       ]
     }
   }
