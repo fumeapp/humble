@@ -14,11 +14,17 @@
       "email": "acidjazz@gmail.com"
     }
   ],
+  "repositories": [
+    {
+      "type" :"vcs",
+      "url": "https://github.com/acidjazz/laravel-geoip"
+    }
+  ],
   "require": {
     "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.*",
     "php": "~7.0",
     "whichbrowser/parser": "^2.0",
-    "torann/geoip": "^1.0"
+    "torann/geoip": "dev-master"
   },
   "autoload": {
     "psr-4": {

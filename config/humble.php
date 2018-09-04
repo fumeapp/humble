@@ -11,7 +11,7 @@ return [
      |
      */
 
-    'user' => App\Models\User::class,
+    'user' => App\User::class,
 
   ];
 
