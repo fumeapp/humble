@@ -25,6 +25,22 @@
 }
 ```
 
+* Detailed location using [lyften](https://github.com/Torann/laravel-geoip)'s adapter for [GeoIP2](https://github.com/maxmind/GeoIP2-php)
+
+```json
+"location": {
+  "ip": "86.222.88.167",
+  "country": "France",
+  "city": "Lons",
+  "state": "NAQ",
+  "postal_code": "64140",
+  "lat": 43.3167,
+  "lon": -0.4,
+  "timezone": "Europe\/Paris",
+  "currency": "EUR"
+}
+```
+
 ## Installation
 
 Install humble with [composer](https://getcomposer.org/doc/00-intro.md):

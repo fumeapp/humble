@@ -10,6 +10,7 @@ class Session extends Model {
 
   protected $fillable = ['token','user_id','source','cookie','verified', 'to', 'ip','agent'];
   protected $primaryKey = 'token';
+  protected $casts = ['location' => 'array'];
   public $incrementing = false;
   public $appends = ['device'];
 
@@ -21,6 +22,7 @@ class Session extends Model {
   public function getDeviceAttribute ()
   {
     $agent = new WhichBrowser\Parser($this->agent);
+
     return [
       'string' => $agent->toString(),
       'platform' => $agent->os->toString(),

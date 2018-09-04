@@ -8,6 +8,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 use acidjazz\Humble\Models\Session;
 
+use \Torann\GeoIP\Facades\GeoIP;
+
 class HumbleGuard implements Guard {
 
   protected $user;
@@ -53,13 +55,18 @@ class HumbleGuard implements Guard {
       $this->logout();
     }
 
+    $ip = request()->header('X-Forwarded-For') ?: request()->ip();
+    $loc = geoip($ip)->toArray();
+    unset($loc['iso_code'],$loc['continent'],$loc['state_name'],$loc['default'],$loc['cached']);
+
     $this->session = Session::create([
       'token' => Session::hash(),
       'user_id' => $user->id,
       'source' => $source,
       'cookie' => false,
       'verified' => true,
-      'ip' => request()->header('X-Forwarded-For') ?: request()->ip(),
+      'ip' => $ip,
+      'location' => $loc,
       'agent' => request()->Header('User-Agent'),
     ]);
 

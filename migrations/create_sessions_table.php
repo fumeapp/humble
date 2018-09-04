@@ -28,6 +28,8 @@ class CreateSessionsTable extends Migration
       $table->string('ip', 15)->nullable();
       $table->string('agent')->nullable();
 
+      $table->string('location')->nullable();
+
       $table->timestamps();
       $table->primary('token');
     });
