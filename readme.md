@@ -8,6 +8,11 @@
 [![Latest Stable Version](https://poser.pugx.org/acidjazz/humble/version.png)](https://packagist.org/packages/acidjazz/humble)
 [![Total Downloads](https://poser.pugx.org/acidjazz/humble/d/total.png)](https://packagist.org/packages/barryvdh/humble)
 
+## Features
+* Passwordless Authentication
+ * Ability to store and compare a cookie, securing the magic link sent out
+* Detailed sessions using Jenssegers [Agent](https://github.com/jenssegers/agent)
+
 ## Installation
 
 Install humble with [composer](https://getcomposer.org/doc/00-intro.md):

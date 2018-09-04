@@ -46,7 +46,7 @@ class HumbleGuard implements Guard {
     return true;
   }
 
-  public function login(Authenticatable $user)
+  public function login(Authenticatable $user, String $source=null)
   {
 
     if ($this->check()) {
@@ -56,7 +56,7 @@ class HumbleGuard implements Guard {
     $this->session = Session::create([
       'token' => Session::hash(),
       'user_id' => $user->id,
-      'source' => 'Auth::login',
+      'source' => $source,
       'cookie' => false,
       'verified' => true,
       'ip' => request()->ip(),
@@ -81,7 +81,7 @@ class HumbleGuard implements Guard {
     $attempt = Session::create([
       'token' => Session::hash(),
       'user_id' => $user->id,
-      'source' => 'attempt',
+      'source' => 'e-mail',
       'cookie' => Session::hash(),
       'verified' => false,
       'ip' => request()->ip(),
