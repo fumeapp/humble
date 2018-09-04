@@ -4,7 +4,7 @@ namespace acidjazz\Humble\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Jenssegers\Agent\Agent;
+use WhichBrowser;
 
 class Session extends Model {
 
@@ -20,13 +20,13 @@ class Session extends Model {
 
   public function getDeviceAttribute ()
   {
-    $agent = new Agent();
-    $agent->setUserAgent($this->agent);
+    $agent = new WhichBrowser\Parser($this->agent);
     return [
-      'platform' => $agent->platform(),
-      'browser' => $agent->browser(),
-      'device' => $agent->device(),
-      'desktop' => $agent->isDesktop(),
+      'string' => $agent->toString(),
+      'platform' => $agent->os->toString(),
+      'browser' => $agent->browser->toString(),
+      'name' => $agent->device->toString(),
+      'desktop' => $agent->isType('desktop'),
       'mobile' => $agent->isMobile(),
     ];
   }

@@ -12,7 +12,18 @@
 * Passwordless Authentication
   * Ability to store and compare a cookie, securing the magic link sent out
   * Ability for magic links to expire
-* Detailed sessions using Jenssegers [Agent](https://github.com/jenssegers/agent)
+* Detailed sessions using [whichbrowser](https://github.com/WhichBrowser/Parser-PHP)
+
+```json
+"device": {
+  "string": "Chrome 68 on a Google Pixel 2 XL running Android 9",
+  "platform": "Android 9",
+  "browser": "Chrome 68",
+  "name": "Google Pixel 2 XL",
+  "desktop": false,
+  "mobile": true
+}
+```
 
 ## Installation
 
