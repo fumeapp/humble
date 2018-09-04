@@ -59,7 +59,7 @@ class HumbleGuard implements Guard {
       'source' => $source,
       'cookie' => false,
       'verified' => true,
-      'ip' => request()->ip(),
+      'ip' => request()->header('X-Forwarded-For') ?: request()->ip(),
       'agent' => request()->Header('User-Agent'),
     ]);
 
