@@ -8,7 +8,7 @@ use WhichBrowser;
 
 class Session extends Model {
 
-  protected $fillable = ['token','user_id','source','cookie','verified', 'to', 'ip','agent'];
+  protected $fillable = ['token','user_id','source','cookie','verified', 'to', 'ip','location', 'agent'];
   protected $primaryKey = 'token';
   protected $casts = ['location' => 'array'];
   public $incrementing = false;
