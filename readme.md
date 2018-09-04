@@ -59,6 +59,15 @@ class User extends Authenticatable
 }
 ```
 
+If you're user class is not `App\Models\User`, we need to tell humble what it is:
+
+Publish Humble's configuration
+```
+php artisan vendor:publish --provider="acidjazz\Humble" --tag=config
+```
+Modify `config/humble.php` and specify your user class
+
+
 Publish Humble's migrations of it's sessions table
 ```bash
 php artisan vendor:publish --tag="humble.migrations"
