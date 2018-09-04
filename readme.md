@@ -11,6 +11,7 @@
 ## Features
 * Passwordless Authentication
   * Ability to store and compare a cookie, securing the magic link sent out
+  * Ability for magic links to expire
 * Detailed sessions using Jenssegers [Agent](https://github.com/jenssegers/agent)
 
 ## Installation
