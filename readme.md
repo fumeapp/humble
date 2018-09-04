@@ -2,14 +2,14 @@
   <img src="https://github.com/acidjazz/humble/raw/master/logo.jpg"/>
 </p>
 
-> Ideal Sessioning and Authentication for Laravel
+> Ideal Sessioning and authentication for Laravel
 
 [![Packagist License](https://poser.pugx.org/acidjazz/humble/license.png)](https://choosealicense.com/licenses/apache-2.0/)
 [![Latest Stable Version](https://poser.pugx.org/acidjazz/humble/version.png)](https://packagist.org/packages/acidjazz/humble)
 [![Total Downloads](https://poser.pugx.org/acidjazz/humble/d/total.png)](https://packagist.org/packages/barryvdh/humble)
 
 ## Features
-* Passwordless Authentication
+* Passwordless authentication
   * Ability to store and compare a cookie, securing the magic link sent out
   * Ability for magic links to expire
 * Detailed sessions using [whichbrowser](https://github.com/WhichBrowser/Parser-PHP)
