@@ -19,6 +19,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     });
 
     if ($this->runningInConsole()) {
+      $this->publishConfig();
       $this->publishMigrations();
     }
   }
@@ -35,6 +36,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     $target = $this->app->databasePath().'/migrations/'.$timestamp.'_create_sessions_table.php';
     $this->publishes([$stub => $target], 'humble.migrations');
 
+  }
+
+  public function publishConfig()
+  {
+    $this->publishes([
+      __DIR__.'/../config/humble.php' => config_path('humble.php')
+    ], 'config');
   }
 
   /**
