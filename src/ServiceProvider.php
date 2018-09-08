@@ -18,10 +18,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
       return new HumbleGuard(Auth::createUserProvider($config['provider']));
     });
 
-    if ($this->runningInConsole()) {
-      $this->publishConfig();
-      $this->publishMigrations();
-    }
+    $this->publishConfig();
+    $this->publishMigrations();
   }
 
   public function publishMigrations()
@@ -40,20 +38,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
   public function publishConfig()
   {
-    $this->publishes([
-      __DIR__.'/../config/humble.php' => config_path('humble.php')
-    ], 'config');
+    $stub =  __DIR__.'/../config/humble.php';
+    $target = config_path('humble.php'); 
+    $this->publishes([$stub => $target], 'humble.config');
   }
 
-  /**
-   * Determine if we are running in the console.
-   *
-   * Copied from Laravel's Application class, since we need to support 5.1.
-   *
-   * @return bool
-   */
-  protected function runningInConsole()
-  {
-    return php_sapi_name() == 'cli' || php_sapi_name() == 'phpdbg';
-  }
 }
