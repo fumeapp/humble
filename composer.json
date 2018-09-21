@@ -18,7 +18,7 @@
     "illuminate/support": "5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.*",
     "php": "~7.0",
     "whichbrowser/parser": "^2.0",
-    "acidjazz/geoip": "1.0.8"
+    "torann/geoip": "1.0.8"
   },
   "autoload": {
     "psr-4": {
