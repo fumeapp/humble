@@ -69,6 +69,21 @@ Run the migration
 php artisan migrate
 ```
 
+Change your guard in your config, to the 'humble' guard in `config/auth.php`, in my case since I mainly use Laravel as an API
+```php
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'api' => [
+            'driver' => 'humble',
+            'provider' => 'users',
+        ],
+    ],
+```
+
 If you're user class is not `App\User`, we need to tell humble what it is:
 
 Publish Humble's configuration
