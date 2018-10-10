@@ -55,8 +55,6 @@ class HumbleGuard implements Guard {
       $this->logout();
     }
 
-    $ip = request()->header('X-Forwarded-For') ?: request()->ip();
-    $loc = geoip($ip)->toArray();
     unset($loc['iso_code'],$loc['continent'],$loc['state_name'],$loc['default'],$loc['cached']);
 
     $this->session = Session::create([
@@ -65,14 +63,26 @@ class HumbleGuard implements Guard {
       'source' => $source,
       'cookie' => false,
       'verified' => true,
-      'ip' => $ip,
-      'location' => $loc,
+      'ip' => $this->ip(),
+      'location' => $this->geoip(),
       'agent' => request()->Header('User-Agent'),
     ]);
 
     $this->setUser($user);
 
     return $this;
+  }
+
+  private function ip()
+  {
+    return request()->header('X-Forwarded-For') ?: request()->ip();
+  }
+
+  private function geoip()
+  {
+    $loc = geoip($this->ip())->toArray();
+    unset($loc['iso_code'],$loc['continent'],$loc['state_name'],$loc['default'],$loc['cached']);
+    return $loc;
   }
 
   public function logout()
@@ -91,7 +101,8 @@ class HumbleGuard implements Guard {
       'source' => 'e-mail',
       'cookie' => Session::hash(),
       'verified' => false,
-      'ip' => request()->ip(),
+      'ip' => $this->ip(),
+      'location' => $this->geoip(),
       'agent' => request()->Header('User-Agent'),
     ]);
 
