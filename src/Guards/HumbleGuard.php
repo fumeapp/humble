@@ -53,8 +53,6 @@ class HumbleGuard implements Guard {
       $this->logout();
     }
 
-    unset($loc['iso_code'],$loc['continent'],$loc['state_name'],$loc['default'],$loc['cached']);
-
     $this->session = Session::create([
       'token' => Session::hash(),
       'user_id' => $user->id,
@@ -67,7 +65,7 @@ class HumbleGuard implements Guard {
     ]);
 
     $this->setUser($user);
-
+    $this->setUser(config('humble.user')::find($this->session->user_id));
     return $this;
   }
 
@@ -124,7 +122,7 @@ class HumbleGuard implements Guard {
       $this->session->verified = true;
       $this->session->save();
       $this->setUser(config('humble.user')::find($this->session->user_id));
-      return $this->session;
+      return $this;
     }
 
     return false;
