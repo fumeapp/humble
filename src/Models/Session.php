@@ -33,6 +33,11 @@ class Session extends Model {
     ];
   }
 
+  public function user()
+  {
+    return $this->belongsTo(config('humble.user'));
+  }
+
 }
 
 

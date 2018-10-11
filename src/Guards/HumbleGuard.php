@@ -3,7 +3,6 @@
 namespace acidjazz\Humble\Guards;
 
 use Illuminate\Contracts\Auth\Guard;
-use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 use acidjazz\Humble\Models\Session;
@@ -125,7 +124,7 @@ class HumbleGuard implements Guard {
     if ($this->session != null) {
       $this->session->verified = true;
       $this->session->save();
-      $this->setUser(User::find($this->session->user_id));
+      $this->setUser(config('humble.user')::find($this->session->user_id));
       return $this->session;
     }
 
