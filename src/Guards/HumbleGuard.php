@@ -26,7 +26,6 @@ class HumbleGuard implements Guard {
       return true;
     }
 
-
     $token = false;
     $token = request()->get('token') ?: request()->bearerToken() ?:  request()->cookie('token') ?: false;
 

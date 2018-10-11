@@ -19,4 +19,13 @@ trait Humble
     return $this->hasMany(Session::class);
   }
 
+  public function getSessionAttribute()
+  {
+    $token = request()->get('token') ?: request()->bearerToken() ?:  request()->cookie('token') ?: false;
+    if ($token) {
+      return Session::where('token', $token)->first();
+    }
+    return false;
+  }
+
 }
