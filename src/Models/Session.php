@@ -12,7 +12,7 @@ class Session extends Model {
   protected $primaryKey = 'token';
   protected $casts = ['location' => 'array'];
   public $incrementing = false;
-  public $appends = ['device'];
+  public $appends = ['device', 'current'];
 
   public static function hash()
   {
@@ -31,6 +31,12 @@ class Session extends Model {
       'desktop' => $agent->isType('desktop'),
       'mobile' => $agent->isMobile(),
     ];
+  }
+
+  public function getCurrentAttribute ()
+  {
+    $token = request()->get('token') ?: request()->bearerToken() ?:  request()->cookie('token') ?: false;
+    return $this->token === $token;
   }
 
   public function user()
