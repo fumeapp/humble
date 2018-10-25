@@ -88,13 +88,13 @@ class HumbleGuard implements Guard {
     $this->token = null;
   }
 
-  public function attempt(Authenticatable $user, $cookie=true)
+  public function attempt(Authenticatable $user, $cookie=true,$source='e-mail')
   {
 
     $attempt = Session::create([
       'token' => Session::hash(),
       'user_id' => $user->id,
-      'source' => 'e-mail',
+      'source' => $source,
       'cookie' => $cookie ? Session::hash() : false,
       'verified' => false,
       'ip' => $this->ip(),
