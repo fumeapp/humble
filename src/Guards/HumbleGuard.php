@@ -14,6 +14,23 @@ class HumbleGuard implements Guard {
   protected $user;
   protected $session;
 
+
+  /**
+  * check if we have a user
+  *
+  * @return bool
+  */
+  public function hasUser()
+  {
+    return $this->check();
+  }
+
+
+  private function validToken($token)
+  {
+    return strlen($token) === 64;
+  }
+
   /**
   * Determine if the current user is authenticated.
   *
@@ -28,6 +45,10 @@ class HumbleGuard implements Guard {
 
     $token = false;
     $token = request()->get('token') ?: request()->bearerToken() ?:  request()->cookie('token') ?: false;
+
+    if (!$this->validToken($token)) {
+      return false;
+    }
 
     $this->session = Session::where('token', $token)->first();
 
