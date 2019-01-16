@@ -28,4 +28,9 @@ trait Humble
     return false;
   }
 
+  public function getLocationAttribute()
+  {
+    return $this->session ? $this->session->location : false;
+  }
+
 }
