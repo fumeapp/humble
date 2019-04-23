@@ -8,7 +8,7 @@ use WhichBrowser;
 
 class Session extends Model {
 
-  protected $fillable = ['token','user_id','source','cookie','verified', 'to', 'ip','location', 'agent'];
+  protected $fillable = ['token','user_id','source','cookie','verified', 'to', 'active', 'ip','location', 'agent'];
   protected $primaryKey = 'token';
   protected $casts = ['location' => 'array'];
   public $incrementing = false;
@@ -31,6 +31,12 @@ class Session extends Model {
       'desktop' => $agent->isType('desktop'),
       'mobile' => $agent->isMobile(),
     ];
+  }
+
+  public function active($slug)
+  {
+    $this->active = $slug;
+    $this->save();
   }
 
   public function getCurrentAttribute ()

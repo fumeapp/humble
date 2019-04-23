@@ -16,7 +16,28 @@ trait Humble
 
   public function sessions()
   {
-    return $this->hasMany(Session::class);
+    return $this->hasMany(Session::class, 'user_id', 'id');
+  }
+
+  public function hasActive($string)
+  {
+    foreach ($this->sessions as $session) {
+      if ($session->active === $string) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public function getHasActiveSessionAttribute()
+  {
+    $active = false;
+    foreach ($this->sessions as $session) {
+      if ($session->updated_at->diffInSeconds() < 300) {
+        $active = true;
+      }
+    }
+    return $active;
   }
 
   public function getSessionAttribute()

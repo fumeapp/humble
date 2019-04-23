@@ -25,6 +25,7 @@ class CreateSessionsTable extends Migration
 
       // user metadata
       $table->string('to')->nullable();
+      $table->string('active')->nullable();
       $table->string('ip', 15)->nullable();
       $table->string('agent')->nullable();
 
