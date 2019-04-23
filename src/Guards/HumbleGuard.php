@@ -109,7 +109,7 @@ class HumbleGuard implements Guard {
     $this->token = null;
   }
 
-  public function attempt(Authenticatable $user, $cookie=true,$source='e-mail')
+  public function attempt(Authenticatable $user, $cookie=true, $source='e-mail',$to=NULL)
   {
 
     $attempt = Session::create([
@@ -118,6 +118,7 @@ class HumbleGuard implements Guard {
       'source' => $source,
       'cookie' => $cookie ? Session::hash() : false,
       'verified' => false,
+      'to' => $to,
       'ip' => $this->ip(),
       'location' => $this->geoip(),
       'agent' => request()->Header('User-Agent'),
