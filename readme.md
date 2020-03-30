@@ -84,7 +84,7 @@ Change your guard in your config, to the 'humble' guard in `config/auth.php`, in
     ],
 ```
 
-If you're user class is not `App\User`, we need to tell humble what it is:
+If your user class is not `App\User`, we need to tell humble what it is:
 
 Publish Humble's configuration
 ```
