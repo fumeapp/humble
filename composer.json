@@ -1,5 +1,5 @@
 {
-  "name": "acidjazz/Humble",
+  "name": "acidjazz/humble",
   "type": "library",
   "description": "passwordless authentication and detailed sessioning for laravel",
   "license": "Apache-2.0",
