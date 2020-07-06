@@ -88,7 +88,7 @@ If your user class is not `App\User`, we need to tell humble what it is:
 
 Publish Humble's configuration
 ```
-php artisan vendor:publish --provider="acidjazz\Humble" --tag=config
+ php artisan vendor:publish --tag="humble.config"
 ```
 Modify `config/humble.php` and specify your user class
 
