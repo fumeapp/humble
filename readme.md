@@ -59,7 +59,7 @@ class User extends Authenticatable
 }
 ```
 
-Publish Humble's migrations of it's sessions table
+Publish Humble's migrations (sessions table)
 ```bash
 php artisan vendor:publish --tag="humble.migrations"
 ```
