@@ -17,7 +17,7 @@ class CreateSessionsTable extends Migration
 
     Schema::create('sessions', function (Blueprint $table) {
       $table->string('token', 64)->unique();
-      $table->integer('user_id')->unsigned();
+      $table->bigInteger('user_id')->unsigned();
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
       $table->string('source')->nullable();
 
