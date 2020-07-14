@@ -20,8 +20,6 @@ class CreateSessionsTable extends Migration
       $table->integer('user_id')->unsigned();
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
       $table->string('source')->nullable();
-      $table->string('cookie', 64);
-      $table->boolean('verified')->default(false);
 
       // user metadata
       $table->string('to')->nullable();

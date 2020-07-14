@@ -2,217 +2,234 @@
 
 namespace acidjazz\Humble\Guards;
 
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Authenticatable;
-
 use acidjazz\Humble\Models\Session;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Guard;
 
-use \Torann\GeoIP\Facades\GeoIP;
+class HumbleGuard implements Guard
+{
 
-class HumbleGuard implements Guard {
+    /* @var Authenticatable $user */
+    protected $user;
 
-  protected $user;
-  protected $session;
-
-
-  /**
-  * check if we have a user
-  *
-  * @return bool
-  */
-  public function hasUser()
-  {
-    return $this->check();
-  }
+    /* @var Session $session */
+    protected $session;
 
 
-  private function validToken($token)
-  {
-    return strlen($token) === 64;
-  }
-
-  /**
-  * Determine if the current user is authenticated.
-  *
-  * @return bool
-  */
-  public function check()
-  {
-
-    if ($this->user != null) {
-      return true;
+    /**
+     * check if we have a user
+     *
+     * @return bool
+     */
+    public function hasUser()
+    {
+        return $this->check();
     }
 
-    $token = false;
-    $token = request()->get('token') ?: request()->bearerToken() ?:  request()->cookie('token') ?: false;
 
-    if (!$this->validToken($token)) {
-      return false;
+    /**
+     * Validate a token
+     *
+     * @param $token
+     * @return bool
+     */
+    private function validToken($token)
+    {
+        return strlen($token) === 64;
     }
 
-    $this->session = Session::where('token', $token)->first();
+    /**
+     * Determine if the current user is authenticated.
+     *
+     * @return bool
+     */
+    public function check()
+    {
+        if ($this->user !== null) {
+            return true;
+        }
 
-    if ($this->session == null) {
-      return false;
+        $token = request()->get('token')
+            ?: request()->bearerToken()
+            ?: request()->cookie('token')
+            ?: false;
+
+        if (!$this->validToken($token)) {
+            return false;
+        }
+
+        $this->session = Session::where('token', $token)->first();
+
+        if ($this->session == null) {
+            return false;
+        }
+
+        $user = config('humble.user')::where('id', $this->session->user_id)->first();
+
+        if ($this->session === null) {
+            return false;
+        }
+
+        $this->setUser($user);
+
+        return true;
     }
 
-    $user = config('humble.user')::where('id', $this->session->user_id)->first();
+    /**
+     * Login a User
+     *
+     * @param Authenticatable $user
+     * @param string|null $source
+     * @return $this
+     */
+    public function login(Authenticatable $user, string $source = null)
+    {
+        if ($this->check()) {
+            $this->logout();
+        }
 
-    if ($this->session == null) {
-      return false;
+        $this->session = Session::create(
+            [
+                'token' => Session::hash(),
+                'user_id' => $user->id,
+                'source' => $source,
+                'ip' => $this->ip(),
+                'location' => $this->geoip(),
+                'agent' => request()->Header('User-Agent'),
+            ]
+        );
+
+        $this->setUser($user);
+        $this->setUser(config('humble.user')::find($this->session->user_id));
+        return $this;
     }
 
-    $this->setUser($user);
-
-    return true;
-  }
-
-  public function login(Authenticatable $user, String $source=null)
-  {
-
-    if ($this->check()) {
-      $this->logout();
+    /**
+     * Return an IP Address
+     *
+     * @return array|string|null
+     */
+    private function ip()
+    {
+        return request()->header('X-Forwarded-For') ?: request()->ip();
     }
 
-    $this->session = Session::create([
-      'token' => Session::hash(),
-      'user_id' => $user->id,
-      'source' => $source,
-      'cookie' => false,
-      'verified' => true,
-      'ip' => $this->ip(),
-      'location' => $this->geoip(),
-      'agent' => request()->Header('User-Agent'),
-    ]);
-
-    $this->setUser($user);
-    $this->setUser(config('humble.user')::find($this->session->user_id));
-    return $this;
-  }
-
-  private function ip()
-  {
-    return request()->header('X-Forwarded-For') ?: request()->ip();
-  }
-
-  private function geoip()
-  {
-    $loc = geoip($this->ip())->toArray();
-    unset($loc['iso_code'],$loc['continent'],$loc['state_name'],$loc['default'],$loc['cached']);
-    return $loc;
-  }
-
-  public function logout()
-  {
-    $this->session->delete();
-    $this->session = null;
-    $this->token = null;
-  }
-
-  public function attempt(Authenticatable $user, $cookie=true, $source='e-mail',$to=NULL)
-  {
-
-    $attempt = Session::create([
-      'token' => Session::hash(),
-      'user_id' => $user->id,
-      'source' => $source,
-      'cookie' => $cookie ? Session::hash() : false,
-      'verified' => false,
-      'to' => $to,
-      'ip' => $this->ip(),
-      'location' => $this->geoip(),
-      'agent' => request()->Header('User-Agent'),
-    ]);
-
-    return $attempt;
-
-  }
-
-  public function verify(String $token, String $cookie)
-  {
-    $this->session = Session::orWhere([
-      ['token', $token],
-      ['verified', false],
-      ['cookie', false]
-    ])->orWhere([
-     ['token', $token], 
-     ['verified',false], 
-     ['cookie', $cookie]
-   ])->first();
-
-    if ($this->session != null) {
-      $this->session->verified = true;
-      $this->session->save();
-      $this->setUser(config('humble.user')::find($this->session->user_id));
-      return $this;
+    /**
+     * Return a cleaned up GeoIP result
+     * @return array
+     */
+    private function geoip()
+    {
+        $loc = geoip($this->ip())->toArray();
+        unset($loc['iso_code'], $loc['continent'], $loc['state_name'], $loc['default'], $loc['cached']);
+        return $loc;
     }
 
-    return false;
+    /**
+     * Logout a User
+     *
+     * @throws \Exception
+     */
+    public function logout()
+    {
+        $this->session->delete();
+        $this->session = null;
+        $this->token = null;
+    }
 
-  }
+    /**
+     * Perform an attempt to login
+     *
+     * @param Authenticatable $user
+     * @param string $source
+     * @param null $to
+     * @return mixed
+     */
+    public function attempt(Authenticatable $user, $source = 'e-mail', $to = null)
+    {
+        $attempt = Session::create(
+            [
+                'token' => Session::hash(),
+                'user_id' => $user->id,
+                'source' => $source,
+                'to' => $to,
+                'ip' => $this->ip(),
+                'location' => $this->geoip(),
+                'agent' => request()->Header('User-Agent'),
+            ]
+        );
 
-  /**
-  * Determine if the current user is a guest.
-  *
-  * @return bool
-  */
-  public function guest()
-  {
-  }
+        return $attempt;
+    }
 
-  /**
-  * Get the currently authenticated user.
-  *
-  * @return \Illuminate\Contracts\Auth\Authenticatable|null
-  */
-  public function user()
-  {
-    return $this->user;
-  }
+    /**
+     * Determine if the current user is a guest.
+     *
+     * @return bool
+     */
+    public function guest()
+    {
+    }
 
-  /**
-  * Get the current session.
-  *
-  * @return \acidjazz\Humble\Models\Session|null
-  */
-  public function session()
-  {
-    return $this->session;
-  }
+    /**
+     * Get the currently authenticated user.
+     *
+     * @return Authenticatable|null
+     */
+    public function user()
+    {
+        return $this->user;
+    }
 
-  /**
-  * Get the ID for the currently authenticated user.
-  *
-  * @return int|null
-  */
-  public function id()
-  {
-  }
+    /**
+     * Get the current session.
+     *
+     * @return Session|null
+     */
+    public function session()
+    {
+        return $this->session;
+    }
 
-  /**
-  * Validate a user's credentials.
-  *
-  * @param  array  $credentials
-  * @return bool
-  */
-  public function validate(array $credentials = [])
-  {
-  }
+    /**
+     * Get the ID for the currently authenticated user.
+     *
+     * @return int|null
+     */
+    public function id()
+    {
+        return $this->user->id;
+    }
 
-  public function token()
-  {
-    return $this->session->token;
-  }
+    /**
+     * Validate a user's credentials.
+     *
+     * @param array $credentials
+     * @return bool
+     */
+    public function validate(array $credentials = [])
+    {
+    }
 
-  /**
-  * Set the current user.
-  *
-  * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-  * @return void
-  */
-  public function setUser(Authenticatable $user)
-  {
-    $this->user = $user;
-  }
+    /**
+     * Return the current sessions token
+     *
+     * @return mixed
+     */
+    public function token()
+    {
+        return $this->session->token;
+    }
+
+    /**
+     * Set the current user.
+     *
+     * @param Authenticatable $user
+     * @return void
+     */
+    public function setUser(Authenticatable $user)
+    {
+        $this->user = $user;
+    }
 
 }

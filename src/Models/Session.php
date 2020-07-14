@@ -3,12 +3,18 @@
 namespace acidjazz\Humble\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Eloquent;
 
 use WhichBrowser;
 
+/**
+ * Class Session
+ * @package acidjazz\Humble\Models
+ * @mixin Eloquent
+ */
 class Session extends Model {
 
-  protected $fillable = ['token','user_id','source','cookie','verified', 'to', 'active', 'ip','location', 'agent'];
+  protected $guarded = [];
   protected $primaryKey = 'token';
   protected $casts = ['location' => 'array'];
   public $incrementing = false;
