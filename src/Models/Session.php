@@ -39,12 +39,6 @@ class Session extends Model {
     ];
   }
 
-  public function active($slug)
-  {
-    $this->active = $slug;
-    $this->save();
-  }
-
   public function getCurrentAttribute ()
   {
     $token = request()->get('token') ?: request()->bearerToken() ?:  request()->cookie('token') ?: false;

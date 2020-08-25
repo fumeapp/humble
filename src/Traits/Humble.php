@@ -2,7 +2,7 @@
 
 namespace acidjazz\Humble\Traits;
 
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 use acidjazz\Humble\Models\Session;
 use Illuminate\Http\Request;
 
@@ -17,16 +17,6 @@ trait Humble
   public function sessions()
   {
     return $this->hasMany(Session::class, 'user_id', 'id');
-  }
-
-  public function hasActive($string)
-  {
-    foreach ($this->sessions as $session) {
-      if ($session->active === $string) {
-        return true;
-      }
-    }
-    return false;
   }
 
   public function getHasActiveSessionAttribute()

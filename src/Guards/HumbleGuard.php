@@ -147,7 +147,7 @@ class HumbleGuard implements Guard
      */
     public function attempt(Authenticatable $user, $source = 'e-mail', $to = null)
     {
-        $attempt = Session::create(
+        return Session::create(
             [
                 'token' => Session::hash(),
                 'user_id' => $user->id,
@@ -158,8 +158,23 @@ class HumbleGuard implements Guard
                 'agent' => request()->Header('User-Agent'),
             ]
         );
+    }
 
-        return $attempt;
+    /**
+     * Verify and activate a session based on its token
+     * @param String $token
+     * @return Session|false
+     */
+    public function verify(String $token)
+    {
+        $this->session = Session::where('token', $token)->first();
+        if ($this->session != null) {
+            $this->session->verified = true;
+            $this->session->save();
+            $this->setUser(config('humble.user')::find($this->session->user_id));
+            return $this->session;
+        }
+        return false;
     }
 
     /**

@@ -21,9 +21,11 @@ class CreateSessionsTable extends Migration
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
       $table->string('source')->nullable();
 
+      //
+      $table->boolean('verified')->default(false);
+
       // user metadata
       $table->string('to')->nullable();
-      $table->string('active')->nullable();
       $table->string('ip', 36)->nullable();
       $table->string('agent')->nullable();
 
