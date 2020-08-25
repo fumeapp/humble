@@ -4,14 +4,14 @@ return [
 
     /*
      |--------------------------------------------------------------------------
-     | Authenticateable Model 
+     | Authenticateable Model
      |--------------------------------------------------------------------------
      |
      | Specify the location and name of your user model that you gave hte Humble trait to
      |
      */
 
-    'user' => App\User::class,
+    'user' => App\Models\User::class,
 
   ];
 

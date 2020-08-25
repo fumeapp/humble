@@ -3,7 +3,7 @@
 namespace acidjazz\Humble;
 
 use acidjazz\Humble\Guards\HumbleGuard;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -30,8 +30,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     }
 
     $timestamp = date('Y_m_d_His', time());
-    $stub = __DIR__.'/../migrations/create_sessions_table.php';
-    $target = $this->app->databasePath().'/migrations/'.$timestamp.'_create_sessions_table.php';
+    $stub = __DIR__ . '/../migrations/create_humble_tables.php';
+    $target = $this->app->databasePath().'/migrations/'.$timestamp.'_create_humble_tables.php';
     $this->publishes([$stub => $target], 'humble.migrations');
 
   }
@@ -39,7 +39,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
   public function publishConfig()
   {
     $stub =  __DIR__.'/../config/humble.php';
-    $target = config_path('humble.php'); 
+    $target = config_path('humble.php');
     $this->publishes([$stub => $target], 'humble.config');
   }
 

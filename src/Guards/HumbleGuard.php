@@ -2,6 +2,7 @@
 
 namespace acidjazz\Humble\Guards;
 
+use acidjazz\Humble\Models\Attempt;
 use acidjazz\Humble\Models\Session;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
@@ -145,16 +146,14 @@ class HumbleGuard implements Guard
      * @param null $to
      * @return mixed
      */
-    public function attempt(Authenticatable $user, $source = 'e-mail', $to = null)
+    public function attempt(Authenticatable $user, $to = null)
     {
-        return Session::create(
+        return Attempt::create(
             [
                 'token' => Session::hash(),
                 'user_id' => $user->id,
-                'source' => $source,
                 'to' => $to,
                 'ip' => $this->ip(),
-                'location' => $this->geoip(),
                 'agent' => request()->Header('User-Agent'),
             ]
         );
@@ -163,16 +162,15 @@ class HumbleGuard implements Guard
     /**
      * Verify and activate a session based on its token
      * @param String $token
-     * @return Session|false
+     * @return $this|false
      */
     public function verify(String $token)
     {
-        $this->session = Session::where('token', $token)->first();
-        if ($this->session != null) {
-            $this->session->verified = true;
-            $this->session->save();
-            $this->setUser(config('humble.user')::find($this->session->user_id));
-            return $this->session;
+        $attempt = Attempt::where('token', $token)->first();
+        if ($attempt != null) {
+            $user = config('humble.user')::find($attempt->user_id);
+            $attempt->delete();
+            return $this->login($user, 'email');
         }
         return false;
     }
