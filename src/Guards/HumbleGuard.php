@@ -110,7 +110,7 @@ class HumbleGuard implements Guard
      *
      * @return array|string|null
      */
-    private function ip()
+    public function ip()
     {
         return request()->header('X-Forwarded-For') ?: request()->ip();
     }
@@ -119,7 +119,7 @@ class HumbleGuard implements Guard
      * Return a cleaned up GeoIP result
      * @return array
      */
-    private function geoip()
+    public function geoip()
     {
         $loc = geoip($this->ip())->toArray();
         unset($loc['iso_code'], $loc['continent'], $loc['state_name'], $loc['default'], $loc['cached']);
