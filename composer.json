@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "illuminate/support": "6.* || 7.*",
+    "illuminate/support": "6.* || 7.* || 8.*",
     "php": "^7.2 || ^7.3 || ^7.4",
     "whichbrowser/parser": "^2.0",
     "torann/geoip": "~1.0"
