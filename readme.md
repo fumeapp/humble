@@ -11,7 +11,8 @@
 ## Features
 * Passwordless authentication
   * Ability to store and compare a cookie, securing the magic link sent out
-  * Ability for magic links to expire
+  * Link expiration
+  * Able to store "action" objects passed through for completing tasks the user was doing before prompted
 * Detailed sessions using [whichbrowser](https://github.com/WhichBrowser/Parser-PHP)
 
 ```json

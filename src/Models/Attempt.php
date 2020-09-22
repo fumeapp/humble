@@ -17,6 +17,15 @@ class Attempt extends Model {
     protected $primaryKey = 'token';
     public $incrementing = false;
 
+    /**
+     * The attributes that should be cast
+     *
+     * @var array
+     */
+    protected $casts = [
+        'action' => 'array'
+    ];
+
     public function user()
     {
         return $this->belongsTo(config('humble.user'));

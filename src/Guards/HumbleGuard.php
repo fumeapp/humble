@@ -16,6 +16,8 @@ class HumbleGuard implements Guard
     /* @var Session $session */
     protected $session;
 
+    /* @var mixed $action */
+    public $action = null;
 
     /**
      * check if we have a user
@@ -143,16 +145,16 @@ class HumbleGuard implements Guard
      *
      * @param Authenticatable $user
      * @param string $source
-     * @param null $to
+     * @param mixed $action
      * @return mixed
      */
-    public function attempt(Authenticatable $user, $to = null)
+    public function attempt(Authenticatable $user, $action = null)
     {
         return Attempt::create(
             [
                 'token' => Session::hash(),
                 'user_id' => $user->id,
-                'to' => $to,
+                'action' => $action,
                 'ip' => $this->ip(),
                 'agent' => request()->Header('User-Agent'),
             ]
@@ -169,6 +171,7 @@ class HumbleGuard implements Guard
         $attempt = Attempt::where('token', $token)->first();
         if ($attempt != null) {
             $user = config('humble.user')::find($attempt->user_id);
+            $this->action = $attempt->action;
             $attempt->delete();
             return $this->login($user, 'email');
         }
