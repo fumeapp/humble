@@ -14,6 +14,7 @@ class CreateHumbleTables extends Migration
     */
     public function up()
     {
+
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('token', 64)->unique();
             $table->bigInteger('user_id')->unsigned();
@@ -33,8 +34,8 @@ class CreateHumbleTables extends Migration
         Schema::create('attempts', function (Blueprint $table) {
             $table->string('token', 64)->unique();
 
-            // to functionality - send a user somewhere
-            $table->string('to')->nullable();
+            // action functionality store data involving what the user was doing
+            $table->json('action')->nullable();
 
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
