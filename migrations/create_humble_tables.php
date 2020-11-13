@@ -23,7 +23,7 @@ class CreateHumbleTables extends Migration
 
 
             // user metadata
-            $table->string('ip', 36)->nullable();
+            $table->string('ip', 48)->nullable();
             $table->string('agent')->nullable();
             $table->string('location')->nullable();
 
@@ -40,7 +40,7 @@ class CreateHumbleTables extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->string('ip', 36)->nullable();
+            $table->string('ip', 48)->nullable();
             $table->string('agent')->nullable();
 
             $table->timestamps();

@@ -6,6 +6,7 @@ use acidjazz\Humble\Models\Attempt;
 use acidjazz\Humble\Models\Session;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Database\Eloquent\Model;
 
 class HumbleGuard implements Guard
 {
@@ -190,7 +191,7 @@ class HumbleGuard implements Guard
     /**
      * Get the currently authenticated user.
      *
-     * @return Authenticatable|null
+     * @return Authenticatable|\App\Models\User|Model|null
      */
     public function user()
     {
