@@ -124,8 +124,8 @@ class HumbleGuard implements Guard
      */
     public function geoip()
     {
-        if (is_array($this->ip())) {
-            $ip = $this->ip()[0];
+        if (strpos($this->ip(), ',') !== false) {
+            $ip = explode(', ', $this->ip())[0];
         } else {
             $ip = $this->ip();
         }
