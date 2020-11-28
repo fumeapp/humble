@@ -124,7 +124,12 @@ class HumbleGuard implements Guard
      */
     public function geoip()
     {
-        $loc = geoip($this->ip())->toArray();
+        if (is_array($this->ip())) {
+            $ip = $this->ip()[0];
+        } else {
+            $ip = $this->ip();
+        }
+        $loc = geoip($ip)->toArray();
         unset($loc['iso_code'], $loc['continent'], $loc['state_name'], $loc['default'], $loc['cached']);
         return $loc;
     }
