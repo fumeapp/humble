@@ -14,9 +14,9 @@
   ],
   "require": {
     "illuminate/support": "7.* || 8.*",
-    "php": "^7.2 || ^7.3 || ^7.4 || ^8.0",
+    "php": "^7.2|^8.0",
     "whichbrowser/parser": "^2.0",
-    "torann/geoip": "^3.0"
+    "torann/geoip": "^3.0.1"
   },
   "autoload": {
     "psr-4": {
