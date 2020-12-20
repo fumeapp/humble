@@ -21,7 +21,7 @@
   "repositories": [
     {
       "type": "git",
-      "url": "git@github.com:thadbryson/laravel-geoip.git"
+      "url": "https://github.com/thadbryson/laravel-geoip.git"
     }
   ],
   "autoload": {
