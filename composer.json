@@ -16,8 +16,14 @@
     "illuminate/support": "7.* || 8.*",
     "php": "^7.2|^8.0",
     "whichbrowser/parser": "^2.0",
-    "torann/geoip": "^3.0.1"
+    "torann/geoip": "dev-fork-php8"
   },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git@github.com:thadbryson/laravel-geoip.git"
+    }
+  ],
   "autoload": {
     "psr-4": {
      "acidjazz\\Humble\\": "src"
