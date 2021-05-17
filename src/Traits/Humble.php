@@ -2,24 +2,24 @@
 
 namespace acidjazz\Humble\Traits;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use acidjazz\Humble\Models\Session;
-use Illuminate\Http\Request;
 
 trait Humble
 {
 
-  public function getSession()
+  public function getSession(): Session
   {
     return $this->session;
   }
 
-  public function sessions()
+  public function sessions(): HasMany
   {
     return $this->hasMany(Session::class, 'user_id', 'id');
   }
 
-  public function getHasActiveSessionAttribute()
+  public function getHasActiveSessionAttribute(): bool
   {
     $active = false;
     foreach ($this->sessions as $session) {
@@ -30,12 +30,12 @@ trait Humble
     return $active;
   }
 
-  public function getSessionAttribute()
+  public function getSessionAttribute(): Session
   {
     return Auth::session();
   }
 
-  public function getLocationAttribute()
+  public function getLocationAttribute(): array
   {
     return $this->session->location;
   }

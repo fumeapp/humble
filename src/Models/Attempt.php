@@ -4,6 +4,7 @@ namespace acidjazz\Humble\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Eloquent;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
 /**
@@ -26,7 +27,7 @@ class Attempt extends Model {
         'action' => 'array'
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(config('humble.user'));
     }
