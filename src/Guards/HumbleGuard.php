@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class HumbleGuard implements Guard
 {
 
-    /* @var Authenticatable $user */
-    protected $user;
+    protected Authenticatable|null|User $user;
 
     /* @var Session $session */
     protected $session;
