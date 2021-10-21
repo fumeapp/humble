@@ -7,11 +7,12 @@ use acidjazz\Humble\Models\Session;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 
 class HumbleGuard implements Guard
 {
 
-    protected Authenticatable|null|User $user;
+    protected Authenticatable|null|User $user = null;
 
     /* @var Session $session */
     protected $session;
