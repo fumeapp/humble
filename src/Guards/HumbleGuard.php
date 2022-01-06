@@ -70,7 +70,7 @@ class HumbleGuard implements Guard
 
         $user = config('humble.user')::where('id', $this->session->user_id)->first();
 
-        if ($this->session === null) {
+        if ($user === null) {
             return false;
         }
 
