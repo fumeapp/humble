@@ -3,7 +3,6 @@
 namespace acidjazz\Humble\Guards;
 
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use WhichBrowser;
@@ -147,14 +146,7 @@ class HumbleGuard implements Guard
         return $loc;
     }
 
-    #[ArrayShape([
-        'string' => "string",
-        'platform' => "string",
-        'browser' => "string",
-        'name' => "string",
-        'desktop' => "bool",
-        'mobile' => "bool"
-    ])] public static function device($userAgent = null): array
+    public static function device($userAgent = null): array
     {
         if ($userAgent !== null) {
             $agent = new WhichBrowser\Parser($userAgent);
