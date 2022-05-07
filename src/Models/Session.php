@@ -2,6 +2,7 @@
 
 namespace acidjazz\Humble\Models;
 
+use acidjazz\Humble\Guards\HumbleGuard;
 use Illuminate\Database\Eloquent\Model;
 use Eloquent;
 
@@ -28,16 +29,7 @@ class Session extends Model {
 
   public function getDeviceAttribute (): array
   {
-    $agent = new WhichBrowser\Parser($this->agent);
-
-    return [
-      'string' => $agent->toString(),
-      'platform' => $agent->os->toString(),
-      'browser' => $agent->browser->toString(),
-      'name' => $agent->device->toString(),
-      'desktop' => $agent->isType('desktop'),
-      'mobile' => $agent->isMobile(),
-    ];
+      return HumbleGuard::device($this->agent);
   }
 
   public function getCurrentAttribute (): bool

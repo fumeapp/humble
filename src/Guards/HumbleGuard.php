@@ -2,8 +2,15 @@
 
 namespace acidjazz\Humble\Guards;
 
+use Exception;
+use JetBrains\PhpStorm\ArrayShape;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use WhichBrowser;
+
 use acidjazz\Humble\Models\Attempt;
 use acidjazz\Humble\Models\Session;
+use App\Models\User as UserModel;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Eloquent\Model;
@@ -14,18 +21,20 @@ class HumbleGuard implements Guard
 
     protected Authenticatable|null|User $user = null;
 
-    /* @var Session $session */
-    protected $session;
+    /* @var ?Session $session */
+    protected ?Session $session;
 
     /* @var mixed $action */
-    public $action = null;
+    public mixed $action = null;
 
     /**
      * check if we have a user
      *
      * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function hasUser()
+    public function hasUser(): bool
     {
         return $this->check();
     }
@@ -37,7 +46,7 @@ class HumbleGuard implements Guard
      * @param $token
      * @return bool
      */
-    private function validToken($token)
+    private function validToken($token): bool
     {
         return strlen($token) === 64;
     }
@@ -46,8 +55,10 @@ class HumbleGuard implements Guard
      * Determine if the current user is authenticated.
      *
      * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function check()
+    public function check(): bool
     {
         if ($this->user !== null) {
             return true;
@@ -85,8 +96,10 @@ class HumbleGuard implements Guard
      * @param Authenticatable $user
      * @param string|null $source
      * @return $this
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function login(Authenticatable $user, string $source = null)
+    public function login(Authenticatable $user, string $source = null): static
     {
         if ($this->check()) {
             $this->logout();
@@ -113,7 +126,7 @@ class HumbleGuard implements Guard
      *
      * @return array|string|null
      */
-    public function ip()
+    public function ip(): array|string|null
     {
         return request()->header('X-Forwarded-For') ?: request()->ip();
     }
@@ -122,7 +135,7 @@ class HumbleGuard implements Guard
      * Return a cleaned up GeoIP result
      * @return array
      */
-    public function geoip()
+    public function geoip(): array
     {
         if (strpos($this->ip(), ',') !== false) {
             $ip = explode(', ', $this->ip())[0];
@@ -134,12 +147,36 @@ class HumbleGuard implements Guard
         return $loc;
     }
 
+    #[ArrayShape([
+        'string' => "string",
+        'platform' => "string",
+        'browser' => "string",
+        'name' => "string",
+        'desktop' => "bool",
+        'mobile' => "bool"
+    ])] public static function device($userAgent = null): array
+    {
+        if ($userAgent !== null) {
+            $agent = new WhichBrowser\Parser($userAgent);
+        } else {
+            $agent = new WhichBrowser\Parser(request()->Header('User-Agent'));
+        }
+        return [
+            'string' => $agent->toString(),
+            'platform' => $agent->os->toString(),
+            'browser' => $agent->browser->toString(),
+            'name' => $agent->device->toString(),
+            'desktop' => $agent->isType('desktop'),
+            'mobile' => $agent->isMobile(),
+        ];
+    }
+
     /**
      * Logout a User
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function logout()
+    public function logout(): void
     {
         $this->session->delete();
         $this->session = null;
@@ -196,9 +233,9 @@ class HumbleGuard implements Guard
     /**
      * Get the currently authenticated user.
      *
-     * @return Authenticatable|\App\Models\User|Model|null
+     * @return Model|UserModel|Authenticatable|User|null
      */
-    public function user()
+    public function user(): Model|UserModel|Authenticatable|User|null
     {
         return $this->user;
     }
@@ -208,7 +245,7 @@ class HumbleGuard implements Guard
      *
      * @return Session|null
      */
-    public function session()
+    public function session(): ?Session
     {
         return $this->session;
     }
@@ -218,7 +255,7 @@ class HumbleGuard implements Guard
      *
      * @return int|null
      */
-    public function id()
+    public function id(): ?int
     {
         return $this->user->id;
     }
@@ -227,18 +264,18 @@ class HumbleGuard implements Guard
      * Validate a user's credentials.
      *
      * @param array $credentials
-     * @return bool
+     * @return void
      */
-    public function validate(array $credentials = [])
+    public function validate(array $credentials = []): void
     {
     }
 
     /**
      * Return the current sessions token
      *
-     * @return mixed
+     * @return ?string
      */
-    public function token()
+    public function token(): ?string
     {
         return $this->session->token;
     }
@@ -249,7 +286,7 @@ class HumbleGuard implements Guard
      * @param Authenticatable $user
      * @return void
      */
-    public function setUser(Authenticatable $user)
+    public function setUser(Authenticatable $user): void
     {
         $this->user = $user;
     }
