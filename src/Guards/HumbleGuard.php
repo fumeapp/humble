@@ -17,7 +17,6 @@ use Illuminate\Foundation\Auth\User;
 
 class HumbleGuard implements Guard
 {
-
     protected Authenticatable|null|User $user = null;
 
     /* @var ?Session $session */
@@ -37,7 +36,6 @@ class HumbleGuard implements Guard
     {
         return $this->check();
     }
-
 
     /**
      * Validate a token
@@ -94,11 +92,12 @@ class HumbleGuard implements Guard
      *
      * @param Authenticatable $user
      * @param string|null $source
+     * @param  array  $abilities
      * @return $this
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function login(Authenticatable $user, string $source = null): static
+    public function login(Authenticatable $user, string $source = null, array $abilities = ['*']): static
     {
         if ($this->check()) {
             $this->logout();
@@ -109,6 +108,7 @@ class HumbleGuard implements Guard
                 'token' => Session::hash(),
                 'user_id' => $user->id,
                 'source' => $source,
+                'abilities' => $abilities,
                 'ip' => $this->ip(),
                 'location' => $this->geoip(),
                 'agent' => request()->Header('User-Agent'),
@@ -220,6 +220,7 @@ class HumbleGuard implements Guard
      */
     public function guest()
     {
+        //
     }
 
     /**
@@ -260,6 +261,7 @@ class HumbleGuard implements Guard
      */
     public function validate(array $credentials = []): void
     {
+        //
     }
 
     /**
@@ -282,5 +284,4 @@ class HumbleGuard implements Guard
     {
         $this->user = $user;
     }
-
 }
