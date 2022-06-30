@@ -1,8 +1,8 @@
 <?php
 
-namespace acidjazz\Humble;
+namespace Fumeapp\Humble;
 
-use acidjazz\Humble\Guards\HumbleGuard;
+use Fumeapp\Humble\Guards\HumbleGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 

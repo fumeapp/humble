@@ -1,6 +1,6 @@
 <?php
 
-namespace acidjazz\Humble\Exceptions;
+namespace Fumeapp\Humble\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Arr;

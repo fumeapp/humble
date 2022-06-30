@@ -1,9 +1,9 @@
 <?php
 
-namespace acidjazz\Humble\Models;
+namespace Fumeapp\Humble\Models;
 
-use acidjazz\Humble\Contracts\HasAbilities;
-use acidjazz\Humble\Guards\HumbleGuard;
+use Fumeapp\Humble\Contracts\HasAbilities;
+use Fumeapp\Humble\Guards\HumbleGuard;
 use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

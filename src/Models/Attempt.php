@@ -1,6 +1,6 @@
 <?php
 
-namespace acidjazz\Humble\Models;
+namespace Fumeapp\Humble\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

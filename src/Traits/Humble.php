@@ -1,8 +1,8 @@
 <?php
 
-namespace acidjazz\Humble\Traits;
+namespace Fumeapp\Humble\Traits;
 
-use acidjazz\Humble\Models\Session;
+use Fumeapp\Humble\Models\Session;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 

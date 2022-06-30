@@ -1,5 +1,5 @@
 {
-  "name": "acidjazz/humble",
+  "name": "fumeapp/humble",
   "type": "library",
   "license": "MIT",
   "description": "passwordless authentication and detailed sessioning for laravel",
@@ -26,13 +26,13 @@
   },
   "autoload": {
     "psr-4": {
-     "acidjazz\\Humble\\": "src"
+     "Fumeapp\\Humble\\": "src"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "acidjazz\\Humble\\HumbleServiceProvider"
+        "Fumeapp\\Humble\\HumbleServiceProvider"
       ]
     }
   },
