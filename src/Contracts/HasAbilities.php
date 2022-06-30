@@ -1,6 +1,6 @@
 <?php
 
-namespace acidjazz\Humble\Contracts;
+namespace Fumeapp\Humble\Contracts;
 
 interface HasAbilities
 {

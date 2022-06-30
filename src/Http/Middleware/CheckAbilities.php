@@ -1,8 +1,8 @@
 <?php
 
-namespace acidjazz\Humble\Http\Middleware;
+namespace Fumeapp\Humble\Http\Middleware;
 
-use acidjazz\Humble\Exceptions\MissingAbilityException;
+use Fumeapp\Humble\Exceptions\MissingAbilityException;
 use Illuminate\Auth\AuthenticationException;
 
 class CheckAbilities

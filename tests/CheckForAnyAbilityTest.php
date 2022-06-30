@@ -1,9 +1,9 @@
 <?php
 
-namespace acidjazz\Humble\Tests;
+namespace Fumeapp\Humble\Tests;
 
-use acidjazz\Humble\Exceptions\MissingAbilityException;
-use acidjazz\Humble\Http\Middleware\CheckForAnyAbility;
+use Fumeapp\Humble\Exceptions\MissingAbilityException;
+use Fumeapp\Humble\Http\Middleware\CheckForAnyAbility;
 use Illuminate\Auth\AuthenticationException;
 use Mockery;
 use PHPUnit\Framework\TestCase;

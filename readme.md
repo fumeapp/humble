@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="https://github.com/acidjazz/humble/raw/master/logo.jpg"/>
+  <img src="https://github.com/fumeapp/humble/raw/master/logo.jpg"/>
 </p>
 
 > Ideal Sessioning and authentication for Laravel
 
-[![Packagist License](https://poser.pugx.org/acidjazz/humble/license.png)](https://choosealicense.com/licenses/apache-2.0/)
-[![Latest Stable Version](https://poser.pugx.org/acidjazz/humble/version.png)](https://packagist.org/packages/acidjazz/humble)
-[![Total Downloads](https://poser.pugx.org/acidjazz/humble/d/total.png)](https://packagist.org/packages/acidjazz/humble)
+[![Packagist License](https://poser.pugx.org/fumeapp/humble/license.png)](https://choosealicense.com/licenses/apache-2.0/)
+[![Latest Stable Version](https://poser.pugx.org/fumeapp/humble/version.png)](https://packagist.org/packages/fumeapp/humble)
+[![Total Downloads](https://poser.pugx.org/fumeapp/humble/d/total.png)](https://packagist.org/packages/fumeapp/humble)
 
 ## Features
 * Passwordless authentication
@@ -46,13 +46,13 @@
 
 Install humble with [composer](https://getcomposer.org/doc/00-intro.md):
 ```bash
-composer require acidjazz/humble
+composer require fumeapp/humble
 ```
 
 Add Humble's trait to your user model:
 
 ```php
-use acidjazz\Humble\Traits\Humble;
+use Fumeapp\Humble\Traits\Humble;
 ...
 class User extends Authenticatable
 {
@@ -114,8 +114,8 @@ To validate the middleware level you first need to add the following to your `$r
 
 ```php
 // ...
-'abilities' => \acidjazz\Humble\Http\Middleware\CheckAbilities::class,
-'ability' => \acidjazz\Humble\Http\Middleware\CheckForAnyAbility::class,
+'abilities' => \Fumeapp\Humble\Http\Middleware\CheckAbilities::class,
+'ability' => \Fumeap\Humble\Http\Middleware\CheckForAnyAbility::class,
 // ...
 ```
 

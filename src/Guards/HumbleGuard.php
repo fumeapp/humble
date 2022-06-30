@@ -1,9 +1,9 @@
 <?php
 
-namespace acidjazz\Humble\Guards;
+namespace Fumeapp\Humble\Guards;
 
-use acidjazz\Humble\Models\Attempt;
-use acidjazz\Humble\Models\Session;
+use Fumeapp\Humble\Models\Attempt;
+use Fumeapp\Humble\Models\Session;
 use App\Models\User as UserModel;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
