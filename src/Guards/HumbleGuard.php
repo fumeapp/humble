@@ -2,22 +2,20 @@
 
 namespace acidjazz\Humble\Guards;
 
-use Exception;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use WhichBrowser;
-
 use acidjazz\Humble\Models\Attempt;
 use acidjazz\Humble\Models\Session;
 use App\Models\User as UserModel;
+use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use WhichBrowser;
 
 class HumbleGuard implements Guard
 {
-
     protected Authenticatable|null|User $user = null;
 
     /* @var ?Session $session */
@@ -30,6 +28,7 @@ class HumbleGuard implements Guard
      * check if we have a user
      *
      * @return bool
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -37,7 +36,6 @@ class HumbleGuard implements Guard
     {
         return $this->check();
     }
-
 
     /**
      * Validate a token
@@ -54,6 +52,7 @@ class HumbleGuard implements Guard
      * Determine if the current user is authenticated.
      *
      * @return bool
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -68,7 +67,7 @@ class HumbleGuard implements Guard
             ?: request()->cookie('token')
             ?: false;
 
-        if (!$this->validToken($token)) {
+        if (! $this->validToken($token)) {
             return false;
         }
 
@@ -92,13 +91,15 @@ class HumbleGuard implements Guard
     /**
      * Login a User
      *
-     * @param Authenticatable $user
-     * @param string|null $source
+     * @param  Authenticatable  $user
+     * @param  string|null  $source
+     * @param  array  $abilities
      * @return $this
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function login(Authenticatable $user, string $source = null): static
+    public function login(Authenticatable $user, string $source = null, array $abilities = ['*']): static
     {
         if ($this->check()) {
             $this->logout();
@@ -109,6 +110,7 @@ class HumbleGuard implements Guard
                 'token' => Session::hash(),
                 'user_id' => $user->id,
                 'source' => $source,
+                'abilities' => $abilities,
                 'ip' => $this->ip(),
                 'location' => $this->geoip(),
                 'agent' => request()->Header('User-Agent'),
@@ -117,6 +119,7 @@ class HumbleGuard implements Guard
 
         $this->setUser($user);
         $this->setUser(config('humble.user')::find($this->session->user_id));
+
         return $this;
     }
 
@@ -132,6 +135,7 @@ class HumbleGuard implements Guard
 
     /**
      * Return a cleaned up GeoIP result
+     *
      * @return array
      */
     public function geoip(): array
@@ -143,6 +147,7 @@ class HumbleGuard implements Guard
         }
         $loc = geoip($ip)->toArray();
         unset($loc['iso_code'], $loc['continent'], $loc['state_name'], $loc['default'], $loc['cached']);
+
         return $loc;
     }
 
@@ -153,6 +158,7 @@ class HumbleGuard implements Guard
         } else {
             $agent = new WhichBrowser\Parser(request()->Header('User-Agent'));
         }
+
         return [
             'string' => $agent->toString(),
             'platform' => $agent->os->toString(),
@@ -178,9 +184,9 @@ class HumbleGuard implements Guard
     /**
      * Perform an attempt to login
      *
-     * @param Authenticatable $user
-     * @param string $source
-     * @param mixed $action
+     * @param  Authenticatable  $user
+     * @param  string  $source
+     * @param  mixed  $action
      * @return mixed
      */
     public function attempt(Authenticatable $user, $action = null)
@@ -198,18 +204,21 @@ class HumbleGuard implements Guard
 
     /**
      * Verify and activate a session based on its token
-     * @param String $token
+     *
+     * @param  string  $token
      * @return $this|false
      */
-    public function verify(String $token)
+    public function verify(string $token)
     {
         $attempt = Attempt::where('token', $token)->first();
         if ($attempt != null) {
             $user = config('humble.user')::find($attempt->user_id);
             $this->action = $attempt->action;
             $attempt->delete();
+
             return $this->login($user, 'email');
         }
+
         return false;
     }
 
@@ -220,6 +229,7 @@ class HumbleGuard implements Guard
      */
     public function guest()
     {
+        //
     }
 
     /**
@@ -255,11 +265,12 @@ class HumbleGuard implements Guard
     /**
      * Validate a user's credentials.
      *
-     * @param array $credentials
+     * @param  array  $credentials
      * @return void
      */
     public function validate(array $credentials = []): void
     {
+        //
     }
 
     /**
@@ -275,12 +286,11 @@ class HumbleGuard implements Guard
     /**
      * Set the current user.
      *
-     * @param Authenticatable $user
+     * @param  Authenticatable  $user
      * @return void
      */
     public function setUser(Authenticatable $user): void
     {
         $this->user = $user;
     }
-
 }

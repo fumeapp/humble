@@ -60,7 +60,7 @@ class User extends Authenticatable
 }
 ```
 
-Publish Humble's migrations (sessions table)
+### Publish Humble's migrations (sessions table)
 ```bash
 php artisan vendor:publish --tag="humble.migrations"
 ```
@@ -88,10 +88,63 @@ Change your guard in your config, to the 'humble' guard in `config/auth.php`, in
 
 If your user class is not `App\Models\User`, we need to tell humble what it is:
 
-Publish Humble's configuration
+### Publish Humble's configuration
 ```
  php artisan vendor:publish --tag="humble.config"
 ```
 Modify `config/humble.php` and specify your user class
 
+## Usage
 
+Humble is similar to [Laravel Sanctum](https://laravel.com/docs/9.x/sanctum#introduction) in the way you can also assign abilties to sessions.
+
+Primarily humble sessions are stored for user sessions which by default would inherit all session abilities. You can also think of Humble Session as Personal Access Tokens, inside your application your users could create multiple session tokens for various services and integrations like: GitHub actions, CLI Applications, Slack Tokens, etc...
+
+With these addtional session tokens your users can create, you still have access to the session `source` where you can attach certain Gates & Policy behaviors based on that. If your are fine with leaving these session tokens as-is with same access as the user you can stick with that. If you need more granularity you can also assign abilites.
+
+With abilites you can addtionally set specific rules these session tokens can have. For example you might want to have a session tokens for a GitHub action that only has the abilty to peform READ events and not WRITE.
+
+These abilites can be user defined in your app, meaing its up to you to declare these rules in your app and check/valdiate them. The default ability is set to 
+`["*"]` which means full access, but when creating a session you can pass a parameter to only set this to READ, and which your database record would show as 
+`["READ"]`
+
+For valdiating these abilites we provide a few helpers and middlewares to make this easier.
+
+To validate the middleware level you first need to add the following to your `$routeMiddleware` inside of `app/Http/Kernel.php`
+
+```php
+// ...
+'abilities' => \acidjazz\Humble\Http\Middleware\CheckAbilities::class,
+'ability' => \acidjazz\Humble\Http\Middleware\CheckForAnyAbility::class,
+// ...
+```
+
+Once you add those, you can apply them in your routes middleware like so:
+
+```php
+Route::get('admin', function () {
+    return response()->json([
+        'success' => true
+    ]);
+})->middleware(['auth:api', 'ability:admin']);
+```
+
+> The example would pass if that session token had the abilites as: `["*"]` or `["admin"]`
+
+You can also use `abilities` as middleware which is a strict check that the token must have all the given abilites.
+
+Other ways of checking/valdiating abilites inside of your app in areas like Gates & Polciies
+
+1. `auth()->user()->tokenCan('write')`
+2. `auth()->session()->can('write')`
+3. `$user()->tokenCan('write')`
+4. `$request->user()->tokenCan('write')`
+
+
+We also provide an easy way to create new session tokens with the following method
+
+```php
+ $user->createToken('action', ['write'])
+```
+
+> This would also work with either `auth()->user()->createToken(...)` or `$request->user()->createToken(...)`

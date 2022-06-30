@@ -13,5 +13,14 @@ return [
 
     'user' => App\Models\User::class,
 
-  ];
+    /*
+     |--------------------------------------------------------------------------
+     | Active Session Time
+     |--------------------------------------------------------------------------
+     |
+     | Specify the time in seconds that a session is considered active
+     |
+     */
+    'active_session_time' => 300, // 5 minutes
 
+];

@@ -1,0 +1,36 @@
+name: PHPUnit Tests
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * 0' # Once a Week on first day of week at 00:00
+
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: ['8.0', 8.1]
+        laravel: [8, 9]
+
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+
+    steps:
+      - name: 🔨 Checkout code
+        uses: actions/checkout@v2
+
+      - name: 🔨 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
+
+      - name: 🔨 Install dependencies
+        run: composer update --prefer-dist --no-interaction --no-progress
+
+      - name: 🧪 Run Execute PHPUnit Tests
+        run: vendor/bin/phpunit --verbose
