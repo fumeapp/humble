@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateHumbleTables extends Migration
 {
@@ -19,7 +18,7 @@ class CreateHumbleTables extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('source')->nullable();
-            $table->text('abilities')->nullable();
+            $table->json('abilities')->nullable();
 
             // user metadata
             $table->string('ip', 300)->nullable();

@@ -10,18 +10,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Session
- * @package acidjazz\Humble\Models
+ *
  * @mixin Eloquent
  */
 class Session extends Model implements HasAbilities
 {
     protected $primaryKey = 'token';
+
     public $incrementing = false;
+
     protected $guarded = [];
 
     protected $casts = [
         'abilities' => 'json',
-        'location' => 'array'
+        'location' => 'array',
     ];
 
     public $appends = ['device', 'current'];
@@ -39,6 +41,7 @@ class Session extends Model implements HasAbilities
     public function getCurrentAttribute(): bool
     {
         $token = request()->get('token') ?: request()->bearerToken() ?: request()->cookie('token') ?: false;
+
         return $this->token === $token;
     }
 
@@ -55,7 +58,7 @@ class Session extends Model implements HasAbilities
      */
     public function can($ability): bool
     {
-        return is_null($this->abilities) ||in_array('*', $this->abilities) ||
+        return is_null($this->abilities) || in_array('*', $this->abilities) ||
                array_key_exists($ability, array_flip($this->abilities));
     }
 

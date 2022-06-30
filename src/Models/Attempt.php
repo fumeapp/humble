@@ -3,19 +3,19 @@
 namespace acidjazz\Humble\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Eloquent;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
 
 /**
  * Class Attempt
- * @package acidjazz\Humble\Models
+ *
  * @mixin Eloquent;
  */
-class Attempt extends Model {
-
+class Attempt extends Model
+{
     protected $guarded = [];
+
     protected $primaryKey = 'token';
+
     public $incrementing = false;
 
     /**
@@ -24,7 +24,7 @@ class Attempt extends Model {
      * @var array
      */
     protected $casts = [
-        'action' => 'array'
+        'action' => 'array',
     ];
 
     public function user(): BelongsTo

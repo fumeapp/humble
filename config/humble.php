@@ -13,7 +13,6 @@ return [
 
     'user' => App\Models\User::class,
 
-
     /*
      |--------------------------------------------------------------------------
      | Active Session Time
@@ -24,5 +23,4 @@ return [
      */
     'active_session_time' => 300, // 5 minutes
 
-  ];
-
+];

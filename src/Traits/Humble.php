@@ -2,9 +2,9 @@
 
 namespace acidjazz\Humble\Traits;
 
+use acidjazz\Humble\Models\Session;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
-use acidjazz\Humble\Models\Session;
 
 trait Humble
 {

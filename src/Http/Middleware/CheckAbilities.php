@@ -15,7 +15,7 @@ class CheckAbilities
      * @param  mixed  ...$abilities
      * @return \Illuminate\Http\Response
      *
-     * @throws \Illuminate\Auth\AuthenticationException|\acidjazz\Humble\Exceptions\MissingAbilityException
+     * @throws AuthenticationException|MissingAbilityException
      */
     public function handle($request, $next, ...$abilities)
     {
