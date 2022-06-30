@@ -27,12 +27,12 @@ class HumbleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (app()->runningInConsole()) {
+        // extend auth guard
+        Auth::extend('humble', function ($app, $name, array $config) {
+            return new HumbleGuard(Auth::createUserProvider($config['provider']));
+        });
 
-            // extend auth guard
-            Auth::extend('humble', function ($app, $name, array $config) {
-                return new HumbleGuard(Auth::createUserProvider($config['provider']));
-            });
+        if (app()->runningInConsole()) {
 
             // migrations
             $this->publishes([
