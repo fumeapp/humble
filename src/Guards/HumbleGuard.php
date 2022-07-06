@@ -2,10 +2,10 @@
 
 namespace Fumeapp\Humble\Guards;
 
-use Fumeapp\Humble\Models\Attempt;
-use Fumeapp\Humble\Models\Session;
 use App\Models\User as UserModel;
 use Exception;
+use Fumeapp\Humble\Models\Attempt;
+use Fumeapp\Humble\Models\Session;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Eloquent\Model;
