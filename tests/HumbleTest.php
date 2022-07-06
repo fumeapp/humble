@@ -46,7 +46,7 @@ class HumbleTest extends TestCase
         $this->assertTrue($storedToken->can('delete'));
     }
 
-    public function test_token_can_return_false_if_it_does_not_have_()
+    public function test_token_can_return_false_if_it_does_not_have_correct_abilities()
     {
         $user = User::create([
             'name' => 'John Doe',
