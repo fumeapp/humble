@@ -4,9 +4,9 @@
 
 > Ideal Sessioning and authentication for Laravel
 
-[![Packagist License](https://poser.pugx.org/fumeapp/humble/license.png)](https://choosealicense.com/licenses/apache-2.0/)
-[![Latest Stable Version](https://poser.pugx.org/fumeapp/humble/version.png)](https://packagist.org/packages/fumeapp/humble)
-[![Total Downloads](https://poser.pugx.org/fumeapp/humble/d/total.png)](https://packagist.org/packages/fumeapp/humble)
+[![Packagist License](https://poser.pugx.org/acidajzz/humble/license.png)](https://choosealicense.com/licenses/apache-2.0/)
+[![Latest Stable Version](https://poser.pugx.org/acidajzz/humble/version.png)](https://packagist.org/packages/acidajzz/humble)
+[![Total Downloads](https://poser.pugx.org/acidjazz/humble/d/total.png)](https://packagist.org/packages/acidjazz/humble)
 
 ## Features
 * Passwordless authentication
@@ -46,7 +46,7 @@
 
 Install humble with [composer](https://getcomposer.org/doc/00-intro.md):
 ```bash
-composer require fumeapp/humble
+composer require acidjazz/humble
 ```
 
 Add Humble's trait to your user model:
