@@ -17,14 +17,14 @@ class User extends Authenticatable
      */
     public function createToken(string $source, array $abilities = ['*']): string
     {
-        return ($this->sessions()->create([
+        return $this->sessions()->create([
             'token' => Session::hash(),
             'source' => $source,
             'abilities' => $abilities,
             'ip' => null,
             'location' => null,
             'agent' => null,
-        ]))
+        ])
             ->getKey();
     }
 }

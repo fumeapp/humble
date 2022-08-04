@@ -71,14 +71,14 @@ trait Humble
      */
     public function createToken(string $source, array $abilities = ['*']): string
     {
-        return ($this->sessions()->create([
+        return $this->sessions()->create([
             'token' => Session::hash(),
             'source' => $source,
             'abilities' => $abilities,
             'ip' => auth()->ip() ?? request()->ip(),
             'location' => auth()->geoip() ?? null,
             'agent' => request()->Header('User-Agent'),
-        ]))
+        ])
             ->getKey();
     }
 }
