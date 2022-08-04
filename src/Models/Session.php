@@ -2,9 +2,9 @@
 
 namespace Fumeapp\Humble\Models;
 
+use Eloquent;
 use Fumeapp\Humble\Contracts\HasAbilities;
 use Fumeapp\Humble\Guards\HumbleGuard;
-use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
