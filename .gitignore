@@ -13,3 +13,4 @@ build/
 
 .idea/*
 .phpunit.result.cache
+.phpunit.cache
